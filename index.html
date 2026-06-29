@@ -174,12 +174,16 @@ footer p{font-size:.73rem;color:rgba(242,238,255,.2);font-weight:300}
 footer span{color:rgba(192,132,252,.5)}
 
 @media(max-width:768px){
-  .about-grid{grid-template-columns:1fr;gap:3rem}
+  section{min-height:auto;padding:5rem 1.4rem 2.5rem}
+  #inicio .inner,#sobre .inner{padding:2rem 1.2rem}
+  .hero-actions{margin-top:2rem}
+  .hero-desc{margin:1.5rem auto 0}
+  .about-grid{grid-template-columns:1fr;gap:2.4rem}
   .special{grid-template-columns:1fr}
   .sp-right{display:none}
   nav{padding:1rem 1.5rem}
   .navlinks{gap:1.25rem}
-  .stats{gap:1.5rem}
+  .stats{gap:1.2rem}
 }
 </style>
 </head>
@@ -635,7 +639,8 @@ scene.add(ambParticles);
 
 /* ── OBJETO CENTRAL: ESFERA ICOSAÉDRICA ── */
 const coreGroup = new THREE.Group();
-coreGroup.position.set(16, 0.5, -2);
+const torusKnotGroup = new THREE.Group();
+
 scene.add(coreGroup);
 
 // Esfera principal
@@ -696,8 +701,6 @@ const satMeshes = satellites.map(s => {
 });
 
 /* ── TORUS KNOT (esquina derecha) ── */
-const torusKnotGroup = new THREE.Group();
-torusKnotGroup.position.set(-32, -4, -28);
 scene.add(torusKnotGroup);
 
 const torusKnot = new THREE.Mesh(
@@ -756,6 +759,22 @@ gridHelper.position.y = -14;
 gridHelper.material.opacity = 0.35;
 gridHelper.material.transparent = true;
 scene.add(gridHelper);
+
+function updateSceneForWidth(width) {
+  if (width < 768) {
+    coreGroup.position.set(10, 0.5, -2);
+    torusKnotGroup.position.set(-18, -4, -18);
+    gridHelper.position.y = -12;
+    camera.position.set(0, 1.5, 18);
+  } else {
+    coreGroup.position.set(16, 0.5, -2);
+    torusKnotGroup.position.set(-32, -4, -28);
+    gridHelper.position.y = -14;
+    camera.position.set(0, 1, 22);
+  }
+}
+
+updateSceneForWidth(W());
 
 /* ── MOUSE PARALLAX ── */
 let mx = 0, my = 0;
