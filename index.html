@@ -200,6 +200,17 @@ footer span{color:rgba(192,132,252,.5)}
   /* Asegurar que el hero interno no tape el header */
   #inicio .inner{padding-top:2.4rem}
 }
+
+/* Espaciado específico para pantallas pequeñas entre 355px y 430px */
+@media (min-width:355px) and (max-width:430px) {
+  nav{padding:.85rem 1rem}
+  .logo{font-size:0.95rem}
+  .navlinks{gap:0.55rem;flex:1 1 auto;justify-content:flex-end}
+  .navlinks a{font-size:.82rem;padding:.22rem .45rem}
+  /* evitar que el logo se superponga: garantizar separación y orden */
+  .logo{flex:0 0 auto;margin-right:.6rem}
+  #inicio .inner{padding-top:2.6rem}
+}
 </style>
 </head>
 <body>
