@@ -189,6 +189,17 @@ footer span{color:rgba(192,132,252,.5)}
   .stat-n{font-size:1.4rem}
   .stat-l{font-size:.78rem;white-space:normal}
 }
+
+/* Ajustes extra para pantallas muy pequeñas (≈ 360px y menos) */
+@media (max-width:380px) {
+  nav{padding:.7rem 0.9rem}
+  .logo{font-size:1rem}
+  .navlinks{gap:0.7rem}
+  .navlinks a{font-size:.86rem;padding:.28rem .5rem}
+  .navlinks{align-items:center}
+  /* Asegurar que el hero interno no tape el header */
+  #inicio .inner{padding-top:2.4rem}
+}
 </style>
 </head>
 <body>
