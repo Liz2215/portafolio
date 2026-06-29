@@ -878,12 +878,21 @@ function animate() {
   scrollSmooth += (scrollTarget - scrollSmooth) * 0.12;
 
   const mobile = W() < 768;
-  const baseCamX = mobile ? -10 : 0;
-  cameraTarget.x = baseCamX + mx * (mobile ? 0.45 : 1.8);
-  cameraTarget.y = -my * (mobile ? 0.8 : 1.2) - scrollSmooth * 0.005;
-  camera.position.x += (cameraTarget.x - camera.position.x) * 0.04;
-  camera.position.y += (cameraTarget.y - camera.position.y) * 0.04;
-  camera.lookAt(coreGroup.position);
+  if (mobile) {
+    const baseCamX = -10;
+    cameraTarget.x = baseCamX + mx * 0.45;
+    cameraTarget.y = -my * 0.8 - scrollSmooth * 0.005;
+    camera.position.x += (cameraTarget.x - camera.position.x) * 0.04;
+    camera.position.y += (cameraTarget.y - camera.position.y) * 0.04;
+    camera.lookAt(coreGroup.position);
+  } else {
+    // Desktop: keep original parallax & lookAt behavior
+    const camTargetX = mx * 1.8;
+    const camTargetY = -my * 1.2 - scrollSmooth * 0.005;
+    camera.position.x += (camTargetX - camera.position.x) * 0.04;
+    camera.position.y += (camTargetY - camera.position.y) * 0.04;
+    camera.lookAt(camera.position.x * 0.05, camera.position.y * 0.05, 0);
+  }
 
   /* Luces pulsantes */
   L1.intensity = 4.5 + Math.sin(t * 1.7) * 1.2;
