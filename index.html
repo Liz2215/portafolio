@@ -228,6 +228,15 @@ footer span{color:rgba(192,132,252,.5)}
   .form-card{padding:1.1rem}
 }
 
+/* Fix for very narrow devices (<=400px) — stack contact links to avoid cutoff at ~392px */
+@media (max-width:400px) {
+  .contact-links{flex-direction:column;align-items:stretch;gap:0.6rem}
+  .contact-links a{flex:none;width:100%;max-width:100%}
+  .cl-card{min-width:0;width:100%;padding:.7rem .9rem}
+  .cl-label{font-size:.68rem}
+  .cl-icon{width:30px;height:30px}
+}
+
 </style>
 </head>
 <body>
