@@ -215,7 +215,7 @@ footer span{color:rgba(192,132,252,.5)}
     </h1>
     <p class="hero-desc">
       Desarrolladora full stack con experiencia real en proyectos en vivo. Diseño soluciones completas
-      que integran backend sólido y frontend intuitivo, siempre con foco en calidad, mantenimiento y usuario.
+      que integran backend sólido y frontend intuitivo, siempre con enfoque en  la calidad, mantenimiento y usuario.
     </p>
     <div class="hero-actions">
       <a href="#proyectos" class="btn-fill">Ver proyectos</a>
@@ -261,7 +261,7 @@ footer span{color:rgba(192,132,252,.5)}
             Tengo 19 años y <strong>tres niveles académicos completados</strong>. No solo aprendo tecnologías, las pongo en producción. Me muevo con comodidad entre frontend y backend, y actualmente estoy aprendiendo Three.js.
           </p>
           <p class="body-text">
-            Trabajo con equipos, entrego proyectos terminados y me interesa que el código sea <strong>robusto, legible y bien estructurado</strong>, no solo funcional.
+            Trabajo en equipos, entrego proyectos terminados y me interesa que el código sea <strong>robusto, legible y bien estructurado</strong>, no solo funcional.
           </p>
         </div>
         <div class="about-highlight about-spotlight">
@@ -805,9 +805,11 @@ document.addEventListener('mousemove', e => {
   my = (e.clientY / H() - .5) * 2;
 });
 
-/* ── SCROLL ── */
+/* ── SCROLL (smoothed) ── */
 let scrollY = 0;
-window.addEventListener('scroll', () => { scrollY = window.scrollY; });
+let scrollTarget = 0;
+let scrollSmooth = 0; // lerped value used by animation
+window.addEventListener('scroll', () => { scrollTarget = window.scrollY; });
 
 /* ── RESIZE ── */
 window.addEventListener('resize', () => {
@@ -823,11 +825,14 @@ function animate() {
   requestAnimationFrame(animate);
   t += 0.006;
 
-  /* Cámara con parallax y scroll */
+  /* Cámara con parallax y scroll (usar scrollSmooth para evitar jitter) */
+  // smooth the scroll value
+  scrollSmooth += (scrollTarget - scrollSmooth) * 0.12;
+
   const mobile = W() < 768;
   const baseCamX = mobile ? -10 : 0;
   cameraTarget.x = baseCamX + mx * (mobile ? 0.45 : 1.8);
-  cameraTarget.y = -my * (mobile ? 0.8 : 1.2) - scrollY * 0.005;
+  cameraTarget.y = -my * (mobile ? 0.8 : 1.2) - scrollSmooth * 0.005;
   camera.position.x += (cameraTarget.x - camera.position.x) * 0.04;
   camera.position.y += (cameraTarget.y - camera.position.y) * 0.04;
   camera.lookAt(coreGroup.position);
@@ -885,7 +890,7 @@ function animate() {
   ambParticles.rotation.y = t * 0.015;
 
   /* Escala interpolada según scroll para evitar saltos de tamaño */
-  const sProg = Math.min(1, Math.max(0, scrollY / (H() * 0.9)));
+  const sProg = Math.min(1, Math.max(0, scrollSmooth / (H() * 0.9)));
   const desiredScale = scaleStart + (scaleEnd - scaleStart) * sProg;
   coreGroup.scale.x += (desiredScale - coreGroup.scale.x) * 0.12;
   coreGroup.scale.y = coreGroup.scale.z = coreGroup.scale.x;
