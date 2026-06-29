@@ -574,6 +574,8 @@ const H = () => window.innerHeight;
 
 const scene    = new THREE.Scene();
 const camera   = new THREE.PerspectiveCamera(55, W() / H(), 0.1, 800);
+const cameraBase = new THREE.Vector3();
+const cameraTarget = new THREE.Vector3();
 camera.position.set(0, 1, 22);
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
@@ -762,12 +764,13 @@ scene.add(gridHelper);
 
 function updateSceneForWidth(width) {
   if (width < 768) {
-    coreGroup.position.set(-8, 1.8, 7);
-    coreGroup.scale.set(1.6, 1.6, 1.6);
-    torusKnotGroup.position.set(12, -2.5, 8);
+    coreGroup.position.set(-12, 1.8, 4);
+    coreGroup.scale.set(1.7, 1.7, 1.7);
+    torusKnotGroup.position.set(10, -2.5, 6);
     torusKnotGroup.scale.set(1.35, 1.35, 1.35);
     gridHelper.position.y = -6;
-    camera.position.set(0, 2, 10);
+    cameraBase.set(-10, 2, 10);
+    camera.position.copy(cameraBase);
     camera.fov = 45;
     camera.updateProjectionMatrix();
   } else {
@@ -776,7 +779,8 @@ function updateSceneForWidth(width) {
     torusKnotGroup.position.set(-32, -4, -28);
     torusKnotGroup.scale.set(1, 1, 1);
     gridHelper.position.y = -14;
-    camera.position.set(0, 1, 22);
+    cameraBase.set(0, 1, 22);
+    camera.position.copy(cameraBase);
     camera.fov = 55;
     camera.updateProjectionMatrix();
   }
@@ -810,11 +814,13 @@ function animate() {
   t += 0.006;
 
   /* Cámara con parallax y scroll */
-  const camTargetX =  mx * 1.8;
-  const camTargetY = -my * 1.2 - scrollY * 0.005;
-  camera.position.x += (camTargetX - camera.position.x) * 0.04;
-  camera.position.y += (camTargetY - camera.position.y) * 0.04;
-  camera.lookAt(camera.position.x * 0.05, camera.position.y * 0.05, 0);
+  const mobile = W() < 768;
+  const baseCamX = mobile ? -10 : 0;
+  cameraTarget.x = baseCamX + mx * (mobile ? 0.45 : 1.8);
+  cameraTarget.y = -my * (mobile ? 0.8 : 1.2) - scrollY * 0.005;
+  camera.position.x += (cameraTarget.x - camera.position.x) * 0.04;
+  camera.position.y += (cameraTarget.y - camera.position.y) * 0.04;
+  camera.lookAt(coreGroup.position);
 
   /* Luces pulsantes */
   L1.intensity = 4.5 + Math.sin(t * 1.7) * 1.2;
