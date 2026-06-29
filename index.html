@@ -764,14 +764,14 @@ scene.add(gridHelper);
 
 function updateSceneForWidth(width) {
   if (width < 768) {
-    coreGroup.position.set(-8, 1.8, 4);
+    coreGroup.position.set(-8, 1.8, 6);
     coreGroup.scale.set(1, 1, 1);
     torusKnotGroup.position.set(10, -2.5, 6);
     torusKnotGroup.scale.set(1, 1, 1);
     gridHelper.position.y = -6;
-    cameraBase.set(-5, 2, 10);
+    cameraBase.set(-5, 2, 14);
     camera.position.copy(cameraBase);
-    camera.fov = 45;
+    camera.fov = 52;
     camera.updateProjectionMatrix();
   } else {
     coreGroup.position.set(16, 0.5, -2);
