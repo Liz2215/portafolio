@@ -183,7 +183,11 @@ footer span{color:rgba(192,132,252,.5)}
   .sp-right{display:none}
   nav{padding:1rem 1.5rem}
   .navlinks{gap:1.25rem}
-  .stats{gap:1.2rem}
+  /* Stats: aumentar cajas y tipografía para móviles */
+  .stats{display:flex;gap:0.9rem;flex-wrap:wrap;justify-content:space-between}
+  .stats > div{flex:1 1 42%;min-width:120px;padding:0.9rem}
+  .stat-n{font-size:1.4rem}
+  .stat-l{font-size:.78rem;white-space:normal}
 }
 </style>
 </head>
@@ -764,14 +768,14 @@ scene.add(gridHelper);
 
 function updateSceneForWidth(width) {
   if (width < 768) {
-    coreGroup.position.set(-8, 1.8, 6);
+    coreGroup.position.set(-10, 1.8, 4);
     coreGroup.scale.set(1, 1, 1);
     torusKnotGroup.position.set(10, -2.5, 6);
     torusKnotGroup.scale.set(1, 1, 1);
     gridHelper.position.y = -6;
-    cameraBase.set(-5, 2, 14);
+    cameraBase.set(-8, 2, 28);
     camera.position.copy(cameraBase);
-    camera.fov = 52;
+    camera.fov = 55;
     camera.updateProjectionMatrix();
   } else {
     coreGroup.position.set(16, 0.5, -2);
