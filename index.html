@@ -201,16 +201,33 @@ footer span{color:rgba(192,132,252,.5)}
   #inicio .inner{padding-top:2.4rem}
 }
 
-/* Espaciado específico para pantallas pequeñas entre 355px y 430px */
 @media (min-width:355px) and (max-width:430px) {
   nav{padding:.85rem 1rem}
   .logo{font-size:0.95rem}
   .navlinks{gap:0.55rem;flex:1 1 auto;justify-content:flex-end}
   .navlinks a{font-size:.82rem;padding:.22rem .45rem}
-  /* evitar que el logo se superponga: garantizar separación y orden */
   .logo{flex:0 0 auto;margin-right:.6rem}
   #inicio .inner{padding-top:2.6rem}
 }
+
+/* Ajustes para el área de contacto en móviles pequeños */
+@media (max-width:430px) {
+  .contact-links{gap:0.6rem;justify-content:center}
+  .contact-links a{flex:1 1 45%;min-width:110px;max-width:48%;box-sizing:border-box}
+  .cl-card{padding:.9rem 1rem;min-width:0}
+  .cl-icon{width:34px;height:34px;font-size:.7rem}
+  .cl-label{font-size:.7rem}
+  .form-card{padding:1.4rem}
+}
+
+@media (max-width:360px) {
+  .contact-links a{flex:1 1 100%;max-width:100%}
+  .cl-card{padding:.8rem .9rem}
+  .cl-label{font-size:.66rem}
+  .cl-icon{width:30px;height:30px;font-size:.64rem}
+  .form-card{padding:1.1rem}
+}
+
 </style>
 </head>
 <body>
