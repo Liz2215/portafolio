@@ -581,6 +581,9 @@ const camera   = new THREE.PerspectiveCamera(55, W() / H(), 0.1, 800);
 const cameraBase = new THREE.Vector3();
 const cameraTarget = new THREE.Vector3();
 camera.position.set(0, 1, 22);
+// Scroll-driven scale control to avoid size jumps on mobile
+let scaleStart = 1;
+let scaleEnd = 1;
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -769,9 +772,11 @@ scene.add(gridHelper);
 function updateSceneForWidth(width) {
   if (width < 768) {
     coreGroup.position.set(-10, 1.8, 4);
-    coreGroup.scale.set(1, 1, 1);
+    // On mobile start slightly smaller and scale up as user scrolls
+    scaleStart = 0.6;
+    scaleEnd = 1.0;
+    coreGroup.scale.setScalar(scaleStart);
     torusKnotGroup.position.set(10, -2.5, 6);
-    torusKnotGroup.scale.set(1, 1, 1);
     gridHelper.position.y = -6;
     cameraBase.set(-8, 2, 28);
     camera.position.copy(cameraBase);
@@ -779,9 +784,10 @@ function updateSceneForWidth(width) {
     camera.updateProjectionMatrix();
   } else {
     coreGroup.position.set(16, 0.5, -2);
-    coreGroup.scale.set(1, 1, 1);
+    scaleStart = 1.0;
+    scaleEnd = 1.0;
+    coreGroup.scale.setScalar(1.0);
     torusKnotGroup.position.set(-32, -4, -28);
-    torusKnotGroup.scale.set(1, 1, 1);
     gridHelper.position.y = -14;
     cameraBase.set(0, 1, 22);
     camera.position.copy(cameraBase);
@@ -877,6 +883,12 @@ function animate() {
   }
   ambGeo.attributes.position.needsUpdate = true;
   ambParticles.rotation.y = t * 0.015;
+
+  /* Escala interpolada según scroll para evitar saltos de tamaño */
+  const sProg = Math.min(1, Math.max(0, scrollY / (H() * 0.9)));
+  const desiredScale = scaleStart + (scaleEnd - scaleStart) * sProg;
+  coreGroup.scale.x += (desiredScale - coreGroup.scale.x) * 0.12;
+  coreGroup.scale.y = coreGroup.scale.z = coreGroup.scale.x;
 
   /* Cuadrícula sube/baja suave */
   gridHelper.position.y = -14 + Math.sin(t * 0.2) * 0.4;
